@@ -1,0 +1,82 @@
+/*
+ * Paste this into the Cliq Developer Console as a Function (Bots & Tools ->
+ * Functions -> New -> Button function). Its name and your email go into
+ * Cliq Settings as "Cliq Function Name" and "Cliq Function Owner"; the card
+ * builds its Approve and Reject buttons from those two values.
+ *
+ * It holds no logic on purpose. ERPNext decides whether the press is allowed,
+ * applies the workflow and returns the card as it should now look -- this
+ * forwards the press and returns the answer verbatim. Anything smarter here
+ * would be a second copy of the rules, in a language that cannot see the
+ * document.
+ *
+ * Set up once, in ERPNext:
+ *   1. Create a User for the integration (e.g. cliq.bot@microcrispr.com)
+ *      with the role that may apply the Purchase Requisition Matrix workflow.
+ *   2. On that user: API Access -> Generate Keys. Keep the API Secret, it is
+ *      shown once.
+ *   3. Put both into ERP_KEY and ERP_SECRET below, and set ERP_URL to the
+ *      site's public address -- the same host that "Open in ERPNext" uses.
+ *
+ * The key only gets the request through the door. It cannot approve anything
+ * on its own: the handler sends the pressing user's address, and ERPNext
+ * refuses any press that did not come from the person the card was sent to.
+ */
+
+response = Map();
+
+ERP_URL = "https://prderp.microcrispr.com";
+ERP_KEY = "<api key>";
+ERP_SECRET = "<api secret>";
+
+// What was pressed, and on which document -- both read out of the button's
+// key, which is where build_card had to put them. Cliq's send API rejects any
+// extra key in a button action, including the documented "arguments", so the
+// key carries "approve::MAT-MR-2026-03958" and this splits it back apart.
+//
+// One approver holds several of these cards at once, and the handler is given
+// the press and nothing about the conversation around it, so a button that did
+// not name its own document could not act on it.
+pressed = target.get("key");
+parts = pressed.toList("::");
+button_action = parts.get(0);
+mr_name = parts.get(1);
+
+// Who pressed it. This is a claim about identity that ERPNext re-checks; it is
+// not a credential, and on its own it approves nothing.
+actor = user.get("email");
+
+if (mr_name == null || button_action == null)
+{
+	response.put("text", "This button is missing the request it belongs to. Open the record in ERPNext instead.");
+	return response;
+}
+
+params = Map();
+params.put("mr_name", mr_name);
+params.put("action", button_action);
+params.put("actor", actor);
+
+headers = Map();
+headers.put("Authorization", "token " + ERP_KEY + ":" + ERP_SECRET);
+
+result = invokeurl
+[
+	url: ERP_URL + "/api/method/zoho_cliq_integration.api.material_request_action"
+	type: POST
+	parameters: params
+	headers: headers
+];
+
+// Frappe wraps a whitelisted method's return value in "message". That inner
+// map is already a complete message_edit response -- type, text, card, slides
+// and buttons -- so it is returned as it stands.
+edit = result.get("message");
+
+if (edit == null)
+{
+	response.put("text", "ERPNext could not be reached, so nothing was changed. Try the link on the card.");
+	return response;
+}
+
+return edit;

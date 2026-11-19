@@ -1,0 +1,263 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-09 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "status_section",
+  "enabled",
+  "dry_run",
+  "column_break_status",
+  "status_html",
+  "bot_section",
+  "bot_unique_name",
+  "api_domain",
+  "column_break_bot",
+  "zapikey",
+  "target_section",
+  "target_type",
+  "channel_unique_name",
+  "column_break_target",
+  "test_redirect",
+  "identity_section",
+  "identity_field",
+  "delivery_section",
+  "timeout",
+  "max_attempts",
+  "column_break_delivery",
+  "log_successful_sends",
+  "action_section",
+  "action_help",
+  "function_name",
+  "column_break_action",
+  "function_owner",
+  "oauth_section",
+  "oauth_help",
+  "oauth_client_id",
+  "oauth_client_secret",
+  "column_break_oauth",
+  "oauth_refresh_token",
+  "accounts_domain",
+  "safety_section",
+  "allowed_email_domains"
+ ],
+ "fields": [
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "default": "1",
+   "fieldname": "dry_run",
+   "fieldtype": "Check",
+   "label": "Dry Run (do not actually send)"
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status_html",
+   "fieldtype": "HTML",
+   "label": "Status"
+  },
+  {
+   "fieldname": "bot_section",
+   "fieldtype": "Section Break",
+   "label": "Bot"
+  },
+  {
+   "fieldname": "bot_unique_name",
+   "fieldtype": "Data",
+   "label": "Bot Unique Name"
+  },
+  {
+   "default": "cliq.zoho.in",
+   "fieldname": "api_domain",
+   "fieldtype": "Data",
+   "label": "API Domain"
+  },
+  {
+   "fieldname": "column_break_bot",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "zapikey",
+   "fieldtype": "Password",
+   "label": "Zapikey"
+  },
+  {
+   "fieldname": "identity_section",
+   "fieldtype": "Section Break",
+   "label": "Identity Mapping"
+  },
+  {
+   "default": "user_id",
+   "fieldname": "identity_field",
+   "fieldtype": "Select",
+   "label": "Cliq Identity Field",
+   "options": "user_id\ncompany_email"
+  },
+  {
+   "fieldname": "delivery_section",
+   "fieldtype": "Section Break",
+   "label": "Delivery"
+  },
+  {
+   "default": "10",
+   "fieldname": "timeout",
+   "fieldtype": "Int",
+   "label": "Request Timeout (seconds)"
+  },
+  {
+   "default": "3",
+   "fieldname": "max_attempts",
+   "fieldtype": "Int",
+   "label": "Max Attempts"
+  },
+  {
+   "fieldname": "column_break_delivery",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "log_successful_sends",
+   "fieldtype": "Check",
+   "label": "Log Successful Sends"
+  },
+  {
+   "fieldname": "target_section",
+   "fieldtype": "Section Break",
+   "label": "Delivery Target"
+  },
+  {
+   "default": "Direct Message",
+   "fieldname": "target_type",
+   "fieldtype": "Select",
+   "label": "Send To",
+   "options": "Direct Message\nChannel\nBoth"
+  },
+  {
+   "depends_on": "eval:doc.target_type=='Channel'",
+   "fieldname": "channel_unique_name",
+   "fieldtype": "Data",
+   "label": "Channel Unique Name"
+  },
+  {
+   "fieldname": "column_break_target",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.target_type=='Direct Message'",
+   "description": "Must be empty in production — while set, every message goes here instead of to the real recipient.",
+   "fieldname": "test_redirect",
+   "fieldtype": "Data",
+   "label": "Test Redirect (send everything here)"
+  },
+  {
+   "fieldname": "safety_section",
+   "fieldtype": "Section Break",
+   "label": "Safety"
+  },
+  {
+   "default": "microcrispr.com",
+   "fieldname": "allowed_email_domains",
+   "fieldtype": "Small Text",
+   "label": "Allowed Email Domains"
+  },
+  {
+   "fieldname": "oauth_section",
+   "fieldtype": "Section Break",
+   "label": "In-Place Updates (OAuth)"
+  },
+  {
+   "fieldname": "oauth_help",
+   "fieldtype": "HTML",
+   "options": "<p class='text-muted small'>Only needed to <b>edit a message after it was sent</b> &mdash; for example flipping a Material Request card from Pending to Approved without sending a second message. A zapikey cannot do this: Zoho requires an OAuth token with the <code>ZohoCliq.Messages.UPDATE</code> scope. Leave empty and messages are sent exactly as before and never updated.</p>"
+  },
+  {
+   "fieldname": "oauth_client_id",
+   "fieldtype": "Data",
+   "label": "Client ID"
+  },
+  {
+   "fieldname": "oauth_client_secret",
+   "fieldtype": "Password",
+   "label": "Client Secret"
+  },
+  {
+   "fieldname": "column_break_oauth",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "oauth_refresh_token",
+   "fieldtype": "Password",
+   "label": "Refresh Token"
+  },
+  {
+   "fieldname": "accounts_domain",
+   "fieldtype": "Data",
+   "label": "Accounts Domain",
+   "description": "Where tokens are refreshed. Left empty, it follows API Domain: cliq.zoho.in gives accounts.zoho.in."
+  },
+  {
+   "fieldname": "action_section",
+   "fieldtype": "Section Break",
+   "label": "Approve from Cliq"
+  },
+  {
+   "fieldname": "action_help",
+   "fieldtype": "HTML",
+   "options": "<p class='text-muted small'>Fill both to put <b>Approve</b> and <b>Reject</b> buttons on pending cards. They invoke a function you create in the Cliq Developer Console, which calls back into ERPNext and rewrites the card with the new status. Leave either empty and cards carry only the link button, exactly as before. The Deluge body to paste is in <code>cliq_function.deluge</code>.</p>"
+  },
+  {
+   "fieldname": "function_name",
+   "fieldtype": "Data",
+   "label": "Cliq Function Name",
+   "description": "The function's name in the Cliq console, e.g. erp_mr_action."
+  },
+  {
+   "fieldname": "column_break_action",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "function_owner",
+   "fieldtype": "Data",
+   "label": "Cliq Function Owner",
+   "description": "Email of whoever created that function. Cliq needs it to resolve the name."
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-11-19 14:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Zoho Cliq Integration",
+ "name": "Cliq Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,215 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-10-09 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "status",
+  "recipient_cliq",
+  "delivery_mode",
+  "column_break_head",
+  "reference_doctype",
+  "reference_name",
+  "trigger_state",
+  "routing_section",
+  "recipient_user",
+  "resolved_via",
+  "column_break_routing",
+  "attempts",
+  "sent_at",
+  "content_section",
+  "subject",
+  "message",
+  "card_data",
+  "result_section",
+  "error",
+  "response",
+  "message_id",
+  "chat_id",
+  "update_note"
+ ],
+ "fields": [
+  {
+   "default": "Queued",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Queued\nSent\nUndelivered\nFailed\nSkipped\nSkipped - No Recipient\nSkipped - Recipient Not Allowed\nDry Run",
+   "read_only": 1
+  },
+  {
+   "description": "Address or channel the message was actually sent to.",
+   "fieldname": "recipient_cliq",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Cliq Target",
+   "read_only": 1
+  },
+  {
+   "fieldname": "delivery_mode",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Delivery Mode",
+   "options": "\nDirect Message\nChannel",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_head",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Reference Document Type",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Reference Name",
+   "options": "reference_doctype",
+   "read_only": 1
+  },
+  {
+   "description": "Value of the watched field at the moment the message was raised.",
+   "fieldname": "trigger_state",
+   "fieldtype": "Data",
+   "label": "Trigger State",
+   "read_only": 1
+  },
+  {
+   "fieldname": "routing_section",
+   "fieldtype": "Section Break",
+   "label": "Routing"
+  },
+  {
+   "description": "Address resolved from the document before identity mapping.",
+   "fieldname": "recipient_user",
+   "fieldtype": "Data",
+   "label": "ERPNext Recipient",
+   "read_only": 1
+  },
+  {
+   "description": "Which rule named this recipient. Lets a wrong recipient be traced to the field that produced it.",
+   "fieldname": "resolved_via",
+   "fieldtype": "Data",
+   "label": "Resolved Via",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_routing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "attempts",
+   "fieldtype": "Int",
+   "label": "Attempts",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sent_at",
+   "fieldtype": "Datetime",
+   "label": "Sent At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "content_section",
+   "fieldtype": "Section Break",
+   "label": "Content"
+  },
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "label": "Subject",
+   "read_only": 1
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Long Text",
+   "label": "Message",
+   "read_only": 1
+  },
+  {
+   "depends_on": "card_data",
+   "description": "The structured part of the Cliq payload (card, slides, buttons) sent alongside the text. Empty for a plain-text message.",
+   "fieldname": "card_data",
+   "fieldtype": "Code",
+   "label": "Card Data",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "result_section",
+   "fieldtype": "Section Break",
+   "label": "Result"
+  },
+  {
+   "fieldname": "error",
+   "fieldtype": "Small Text",
+   "label": "Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "response",
+   "fieldtype": "Code",
+   "label": "Response",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "message_id",
+   "fieldtype": "Data",
+   "label": "Message ID",
+   "read_only": 1,
+   "description": "Zoho's id for the message that was sent. Required to edit it in place; empty when Zoho returned none."
+  },
+  {
+   "fieldname": "chat_id",
+   "fieldtype": "Data",
+   "label": "Chat ID",
+   "read_only": 1,
+   "description": "The conversation the message sits in. The other half of an edit address."
+  },
+  {
+   "fieldname": "update_note",
+   "fieldtype": "Small Text",
+   "label": "Update Note",
+   "read_only": 1,
+   "description": "What happened the last time this message was asked to change in place."
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-11-19 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Zoho Cliq Integration",
+ "name": "Cliq Message Log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "recipient_cliq"
+}
