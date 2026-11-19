@@ -741,3 +741,8 @@ Configured tools: ruff, eslint, prettier, pyupgrade.
 ## License
 
 mit
+# erpnext-zoho-cliq-integration
+# erpnext-zoho-cliq-integration
+# erpnext-zoho-cliq-integration
+# erpnext-zoho-cliq-integration
+# erpnext-zoho-cliq-integration
